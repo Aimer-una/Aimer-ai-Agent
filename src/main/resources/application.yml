@@ -1,6 +1,12 @@
 spring:
   application:
     name: aimer-ai-agent
+  ai:
+    dashscope:
+      api-key: ${AI_DASHSCOPE_API_KEY}
+      chat:
+        options:
+          model: qwen-plus
 server:
   port: 8123
   servlet:
