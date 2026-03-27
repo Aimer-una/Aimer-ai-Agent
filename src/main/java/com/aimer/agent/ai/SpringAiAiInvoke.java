@@ -8,7 +8,8 @@ import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-@Component
+// TODO 这个类会在启动的时候自动触发run方法所以把Component注释掉了，使其不被启动类扫描到
+// @Component
 public class SpringAiAiInvoke implements CommandLineRunner {
 
     @Resource
