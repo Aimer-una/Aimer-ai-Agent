@@ -63,7 +63,7 @@ public class FileBasedChatMemory implements ChatMemory {
          */
         List<Message> allMessages = getOrCreateConversation(conversationId);
         return allMessages.stream()
-                .skip(Math.max(0, allMessages.size()) - lastN)
+                .skip(Math.max(0, allMessages.size()- lastN))
                 .toList();
     }
 

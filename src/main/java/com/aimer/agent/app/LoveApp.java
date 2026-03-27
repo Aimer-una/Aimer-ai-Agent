@@ -1,6 +1,7 @@
 package com.aimer.agent.app;
 
 import com.aimer.agent.advisor.MyLoggerAdvisor;
+import com.aimer.agent.chatmemory.FileBasedChatMemory;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.ai.chat.client.ChatClient;
@@ -32,7 +33,8 @@ public class LoveApp {
             "回答问题简洁明了";
 
     public LoveApp(ChatModel dashscopeChatModel) {
-        ChatMemory chatMemory = new InMemoryChatMemory();
+        String fileDir = System.getProperty("user.dir") + "/chat-memory";
+        ChatMemory chatMemory = new FileBasedChatMemory(fileDir);
         chatClient = ChatClient.builder(dashscopeChatModel)
                 // 指定默认的系统 Prompt
                 .defaultSystem(SYSTEM_PROMPT)
