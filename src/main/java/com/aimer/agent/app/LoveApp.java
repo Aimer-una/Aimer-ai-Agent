@@ -17,6 +17,15 @@ import java.util.List;
 import static org.springframework.ai.chat.client.advisor.AbstractChatMemoryAdvisor.CHAT_MEMORY_CONVERSATION_ID_KEY;
 import static org.springframework.ai.chat.client.advisor.AbstractChatMemoryAdvisor.CHAT_MEMORY_RETRIEVE_SIZE_KEY;
 
+/**
+ * Java 14 引入的预览特性，并在 Java 16 正式发布，它是为了简化“纯数据载体”类的编写而设计的
+ * record 是一种特殊的「不可变数据类」，
+ * 编译器会自动生成构造方法、字段、equals()、hashCode()、getter() 和 toString()，
+ * 让你专注数据本身，而不是样板代码。
+ * @param title
+ * @param suggestions
+ * @author 张润
+ */
 record LoveReport(String title, List<String> suggestions){
 
 }
