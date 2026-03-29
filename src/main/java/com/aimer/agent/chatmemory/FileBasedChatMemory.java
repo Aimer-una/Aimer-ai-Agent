@@ -20,6 +20,9 @@ public class FileBasedChatMemory implements ChatMemory {
     private final String BASE_DIR;
     private static final Kryo kryo = new Kryo();
 
+    // 因为 Kryo 实例是 static final 的（全局唯一），
+    // 它的配置只需要做一次；如果放在构造方法里，每次创建 FileBasedChatMemory 都会重复配置，不仅浪费性能，还可能引发线程安全问题。
+    // static代码块只会在类第一次加载到JVM时被执行一次
     static {
         // 不用提前注册类，方便序列化任意 Message 子类
         kryo.setRegistrationRequired(false);

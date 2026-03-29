@@ -25,6 +25,12 @@ public class LoveAppVectorStoreConfig {
 
         // 加载文档并添加到向量库
         List<Document> documents = loveAppDocumentLoader.loadMarkdowns();
+        /*
+         * simpleVectorStore.add(documents) → 关键一步！
+         * 对每个 Document.content 调用 embeddingModel.embed()；
+         * 把 <向量, 文本, metadata> 三元组存入内存索引；
+         * 后续检索时，就能根据“语义相似度”快速找到最相关段落！
+         */
         simpleVectorStore.add(documents);
         return simpleVectorStore;
     }
