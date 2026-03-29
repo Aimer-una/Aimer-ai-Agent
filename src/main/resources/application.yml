@@ -1,7 +1,18 @@
 spring:
   application:
     name: aimer-ai-agent
+  datasource:
+    url: jdbc:postgresql://改为你的公网地址/数据库名
+    username:  改为你的用户名
+    password: 改为你的密码
+
   ai:
+    vectorstore:
+      pgvector:
+        index-type: hnsw
+        dimensions: 1536
+        distance-type: cosine_distance
+        max-document-batch-size: 10000
     dashscope:
       api-key: ${AI_DASHSCOPE_API_KEY}
       chat:
