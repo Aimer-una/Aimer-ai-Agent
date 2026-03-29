@@ -16,6 +16,14 @@ public class LoveAppVectorStoreConfig {
     @Resource
     private LoveAppDocumentLoader loveAppDocumentLoader;
 
+    // 关于dashscopeEmbeddingModel会不会为null
+    // 这是springboot的自动装配问题
+    /**
+     * Spring 看到这个方法需要一个 EmbeddingModel 类型的参数，就会去容器里找：
+     * 容器里正好有一个由 DashScopeEmbeddingAutoConfiguration 创建的 DashScopeEmbeddingModel 实例；
+     * 于是自动注入进来！
+     */
+
     @Bean
     // 它是内存存储，重启会丢数据（生产可用 Redis、PGVector等）
     VectorStore loveAppVectorStore(EmbeddingModel dashscopeEmbeddingModel){
