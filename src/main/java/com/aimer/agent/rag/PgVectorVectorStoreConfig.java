@@ -1,6 +1,7 @@
 package com.aimer.agent.rag;
 
 import jakarta.annotation.Resource;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.document.Document;
 import org.springframework.ai.embedding.EmbeddingModel;
 import org.springframework.ai.vectorstore.VectorStore;
@@ -10,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.util.List;
-
+@Slf4j
 @Configuration
 public class PgVectorVectorStoreConfig {
 
@@ -28,6 +29,20 @@ public class PgVectorVectorStoreConfig {
                 .vectorTableName("vector_store") // 向量表名
                 .maxDocumentBatchSize(10000) // 批量插入最大数量
                 .build();
+
+
+        // TODO 暂时这么写
+        // 检查表是否为空
+        Integer count = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM vector_store", Integer.class);
+
+        if (count == null || count == 0) {
+            log.info("向量库为空，正在初始化...");
+            List<Document> documents = loveAppDocumentLoader.loadMarkdowns();
+            vectorStore.add(documents);
+        } else {
+            log.info("向量库已存在 {} 条记录，跳过初始化", count);
+        }
+
         List<Document> documents = loveAppDocumentLoader.loadMarkdowns();
         vectorStore.add(documents);
         return vectorStore;
