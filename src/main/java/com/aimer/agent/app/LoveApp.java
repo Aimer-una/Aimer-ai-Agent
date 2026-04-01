@@ -1,7 +1,9 @@
 package com.aimer.agent.app;
 
 import com.aimer.agent.advisor.MyLoggerAdvisor;
+import com.aimer.agent.advisor.ReReadingAdvisor;
 import com.aimer.agent.chatmemory.FileBasedChatMemory;
+import com.aimer.agent.rag.LoveAppRagCustomAdvisorFactory;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
@@ -39,7 +41,7 @@ record LoveReport(String title, List<String> suggestions){
 public class LoveApp {
 
     @Resource
-    private VectorStore loveAppVectorStore;
+    private VectorStore pgVectorVectorStore;
 
     @Resource
     private Advisor loveAppRagCloudAdvisor;
@@ -47,25 +49,12 @@ public class LoveApp {
     private final ChatClient chatClient;
 
     private static final String SYSTEM_PROMPT = """
-                你是一位专业的恋爱咨询师。
-                用户提供了自己的基本信息
-                请为用户选择合适的对象，并说明理由：
-    
-              
-                【要求】
-                - 重点考虑年龄、星座、兴趣匹配度
-                - 给出具体原因，不要泛泛而谈
-                - 语气温暖，像朋友一样聊天
-                - 如果有多位候选人符合条件，请任选其中一位，并明确说出她的名字；
-                - 不要因为不确定就不提名字；
-                - 名字必须来自文档中的“# 恋爱对象候选人 - XXX”部分
-                """;
+    你是一位专业的恋爱心理顾问。
+    用户会直接告诉你他们的状态（如“我正在恋爱”）和具体困扰。
+    请根据用户提到的状态，从专业角度给出温暖、实用的建议。
+    不要反问用户问题，直接提供解决方案。
+""";
 
-/*            "扮演深耕恋爱心理领域的专家。开场向用户表明身份，告知用户可倾诉恋爱难题。" +
-                    "围绕单身、恋爱、已婚三种状态提问：单身状态询问社交圈拓展及追求心仪对象的困扰；" +
-                    "恋爱状态询问沟通、习惯差异引发的矛盾；已婚状态询问家庭责任与亲属关系处理的问题。" +
-                    "引导用户详述事情经过、对方反应及自身想法，以便给出专属解决方案。" +
-                    "回答问题简洁明了";*/
 
     public LoveApp(ChatModel dashscopeChatModel) {
         String fileDir = System.getProperty("user.dir") + "/chat-memory";
@@ -75,8 +64,8 @@ public class LoveApp {
                 .defaultSystem(SYSTEM_PROMPT)
                 .defaultAdvisors(
                         // 指定基于内存‌的对话记忆 Advisor
-                        new MessageChatMemoryAdvisor(chatMemory),
-                        new MyLoggerAdvisor()
+                        new MessageChatMemoryAdvisor(chatMemory)
+                        // new MyLoggerAdvisor()
                 )
                 .build();
     }
@@ -103,6 +92,8 @@ public class LoveApp {
                 .user(message)
                 .advisors(spec -> spec.param(CHAT_MEMORY_CONVERSATION_ID_KEY, chatId)
                         .param(CHAT_MEMORY_RETRIEVE_SIZE_KEY, 10))
+                .advisors(new MyLoggerAdvisor())
+                .advisors(new QuestionAnswerAdvisor(pgVectorVectorStore))
                 .call()
                 .entity(LoveReport.class);
         log.info("loveReport:{}",loveReport);
@@ -116,12 +107,44 @@ public class LoveApp {
                 .advisors(sepc -> sepc.param(CHAT_MEMORY_CONVERSATION_ID_KEY,chatId)
                         .param(CHAT_MEMORY_RETRIEVE_SIZE_KEY,10))
                 .advisors(new MyLoggerAdvisor())
-                .advisors(new QuestionAnswerAdvisor(loveAppVectorStore))
+                .advisors(new QuestionAnswerAdvisor(pgVectorVectorStore))
                 .call()
                 .chatResponse();
         String content = chatResponse.getResult().getOutput().getText();
        //  log.info("content:{}",content);
         return content;
+    }
+
+    public String doChatWithRagCustom(String message, String chatId){
+        // ✅ 动态判断状态
+        String userStatus = extractRelationshipStatus(message);
+
+        ChatResponse chatResponse = chatClient
+                .prompt()
+                .user(message)
+                .advisors(sepc -> sepc.param(CHAT_MEMORY_CONVERSATION_ID_KEY,chatId)
+                        .param(CHAT_MEMORY_RETRIEVE_SIZE_KEY,10))
+                // .advisors(new MyLoggerAdvisor())
+                .advisors(
+                        LoveAppRagCustomAdvisorFactory.createLoveAppRagCustomAdvisor(pgVectorVectorStore,userStatus)
+                )
+                .call()
+                .chatResponse();
+        String content = chatResponse.getResult().getOutput().getText();
+        log.info("content:{}",content);
+        return content;
+    }
+
+    // 在 LoveApp 类里新增
+    private String extractRelationshipStatus(String userMessage) {
+        String msg = userMessage.toLowerCase();
+        if (msg.contains("恋爱") || msg.contains("男女朋友") || msg.contains("对象")) {
+            return "dating";   // 对应 dating/ 目录
+        } else if (msg.contains("已婚") || msg.contains("结婚") || msg.contains("夫妻")) {
+            return "married";  // 对应 married/ 目录
+        } else {
+            return "single";   // 默认或包含“单身”
+        }
     }
 
 

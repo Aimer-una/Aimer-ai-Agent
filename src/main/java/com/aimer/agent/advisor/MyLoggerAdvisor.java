@@ -6,8 +6,10 @@ import org.springframework.ai.chat.client.advisor.api.*;
 import org.springframework.ai.chat.model.MessageAggregator;
 import reactor.core.publisher.Flux;
 
+import java.util.stream.Collectors;
+
 @Slf4j
-public class MyLoggerAdvisor implements CallAroundAdvisor, StreamAroundAdvisor {
+public class MyLoggerAdvisor implements CallAroundAdvisor {
     @Override
     public AdvisedResponse aroundCall(AdvisedRequest advisedRequest, CallAroundAdvisorChain chain) {
         advisedRequest = this.before(advisedRequest);
@@ -16,12 +18,12 @@ public class MyLoggerAdvisor implements CallAroundAdvisor, StreamAroundAdvisor {
         return advisedResponse;
     }
 
-    @Override
-    public Flux<AdvisedResponse> aroundStream(AdvisedRequest advisedRequest, StreamAroundAdvisorChain chain) {
-        advisedRequest = this.before(advisedRequest);
-        Flux<AdvisedResponse> advisedResponses = chain.nextAroundStream(advisedRequest);
-        return (new MessageAggregator()).aggregateAdvisedResponse(advisedResponses,this::observeAfter);
-    }
+//    @Override
+//    public Flux<AdvisedResponse> aroundStream(AdvisedRequest advisedRequest, StreamAroundAdvisorChain chain) {
+//        advisedRequest = this.before(advisedRequest);
+//        Flux<AdvisedResponse> advisedResponses = chain.nextAroundStream(advisedRequest);
+//        return (new MessageAggregator()).aggregateAdvisedResponse(advisedResponses,this::observeAfter);
+//    }
 
     @Override
     public String getName() {
