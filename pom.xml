@@ -120,6 +120,13 @@
             <version>1.0.0-M6</version>
         </dependency>
 
+        <!--使用jsoup库‌实现网页内容抓取和解析依赖-->
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>1.19.1</version>
+        </dependency>
+
     </dependencies>
 
     <repositories>

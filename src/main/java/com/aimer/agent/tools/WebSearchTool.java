@@ -12,6 +12,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * 联网搜索工具
+ */
 public class WebSearchTool {
 
     
