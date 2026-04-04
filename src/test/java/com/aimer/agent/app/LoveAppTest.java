@@ -3,6 +3,7 @@ package com.aimer.agent.app;
 import jakarta.annotation.Resource;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.springframework.ai.chat.messages.AssistantMessage;
 import org.springframework.ai.chat.prompt.PromptTemplate;
 import org.springframework.ai.document.Document;
 import org.springframework.ai.vectorstore.SearchRequest;
@@ -87,5 +88,28 @@ public class LoveAppTest {
         String message = "你好，我目前单身，我想交一个女朋友，但我不知道该怎么做";
         String s = loveApp.doChatWithRagCustom(message, chatId);
         Assertions.assertNotNull(s);
+    }
+
+    @Test
+    void doChatWithTools() {
+
+        //testMessage("周末想带女朋友去上海约会，推荐几个适合情侣的小众打卡地？");
+
+        // testMessage("直接下载一张适合做手机壁纸的星空情侣图片为文件");
+
+        // testMessage("执行 Python3 脚本来生成数据分析报告");
+
+        //testMessage("保存我的恋爱档案为文件");
+
+        testMessage("请调用测试工具");
+    }
+
+    private void testMessage(String message) {
+        // 打印 AssistantMessage 类来自哪个 jar
+        System.out.println("AssistantMessage class: " +
+                AssistantMessage.class.getProtectionDomain().getCodeSource().getLocation());
+        String chatId = UUID.randomUUID().toString();
+        String answer = loveApp.doChatWithTools(message, chatId);
+        Assertions.assertNotNull(answer);
     }
 }
