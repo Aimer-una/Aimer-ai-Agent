@@ -1,6 +1,7 @@
 package com.aimer.agent.rag;
 
 import com.aimer.agent.tools.*;
+import jakarta.annotation.Resource;
 import org.springframework.ai.tool.ToolCallback;
 import org.springframework.ai.tool.ToolCallbacks;
 import org.springframework.context.annotation.Bean;
@@ -11,6 +12,10 @@ public class ToolRegistration {
 
 //    @Value("${search-api.api-key}")
 //    private String searchApiKey;
+    @Resource
+    private EmailTool emailTool;
+    @Resource
+    private PDFGenerationTool pdfGenerationTool;
 
     @Bean
     public ToolCallback[] allTools() {
@@ -19,7 +24,6 @@ public class ToolRegistration {
         WebScrapingTool webScrapingTool = new WebScrapingTool();
         ResourceDownloadTool resourceDownloadTool = new ResourceDownloadTool();
         TerminalOperationTool terminalOperationTool = new TerminalOperationTool();
-        PDFGenerationTool pdfGenerationTool = new PDFGenerationTool();
         DebugTool debugTool = new DebugTool();
         return ToolCallbacks.from(
             fileOperationTool,
@@ -28,7 +32,8 @@ public class ToolRegistration {
             resourceDownloadTool,
             terminalOperationTool,
             pdfGenerationTool,
-                debugTool
+                debugTool,
+                emailTool
         );
     }
 }

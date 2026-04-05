@@ -8,16 +8,22 @@ import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Paragraph;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.tool.annotation.Tool;
 import org.springframework.ai.tool.annotation.ToolParam;
+import org.springframework.stereotype.Component;
 
+@Component
+@Slf4j
 public class PDFGenerationTool {
     @Tool(description = "Generate a PDF file with given content")
     public String generatePDF(
             @ToolParam(description = "Name of the file to save the generated PDF") String fileName,
-            @ToolParam(description = "Content to be included in the PDF") String content){
+            @ToolParam(description = "Content to be included in the PDF") String content
+            ){
         String fileDir = FileConstant.FILE_SAVE_DIR + "/pdf";
         String filePath = fileDir + "/" + fileName;
+
         try{
             FileUtil.mkdir(fileDir);
 
@@ -30,6 +36,7 @@ public class PDFGenerationTool {
                 Paragraph paragraph = new Paragraph(content);
                 document.add(paragraph);
             }
+            log.info("🔄 Generating PDF, will save to context: {}",filePath);
             return "PDF generated successfully to: " + filePath;
         } catch (Exception e) {
             return "Error generating PDF: " + e.getMessage();

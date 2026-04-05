@@ -95,13 +95,13 @@ public class LoveAppTest {
 
         //testMessage("周末想带女朋友去上海约会，推荐几个适合情侣的小众打卡地？");
 
-        // testMessage("直接下载一张适合做手机壁纸的星空情侣图片为文件");
+         testMessage("请帮我生成一个很简短不超过50字恋爱报告的pdf生成后请发到2103095120@qq.com这个邮箱里");
 
         // testMessage("执行 Python3 脚本来生成数据分析报告");
 
         //testMessage("保存我的恋爱档案为文件");
 
-        testMessage("请调用测试工具");
+        // testMessage("请调用测试工具");
     }
 
     private void testMessage(String message) {
