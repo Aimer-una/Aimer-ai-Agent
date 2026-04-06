@@ -1,18 +1,15 @@
 package com.aimer.agent.app;
 
 import com.aimer.agent.advisor.MyLoggerAdvisor;
-import com.aimer.agent.advisor.ReReadingAdvisor;
 import com.aimer.agent.chatmemory.FileBasedChatMemory;
 import com.aimer.agent.rag.LoveAppRagCustomAdvisorFactory;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
-import lombok.val;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
 import org.springframework.ai.chat.client.advisor.QuestionAnswerAdvisor;
 import org.springframework.ai.chat.client.advisor.api.Advisor;
 import org.springframework.ai.chat.memory.ChatMemory;
-import org.springframework.ai.chat.memory.InMemoryChatMemory;
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.ai.tool.ToolCallback;

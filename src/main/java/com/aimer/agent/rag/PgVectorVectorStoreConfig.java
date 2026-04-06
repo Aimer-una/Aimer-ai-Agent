@@ -17,6 +17,10 @@ public class PgVectorVectorStoreConfig {
 
     @Resource
     private LoveAppDocumentLoader loveAppDocumentLoader;
+    @Resource
+    private LoveAppPdfDocumentLoader loveAppPdfDocumentLoader;
+
+
 
     @Bean
     public VectorStore pgVectorVectorStore(JdbcTemplate jdbcTemplate, EmbeddingModel dashscopeEmbeddingModel){
@@ -38,13 +42,14 @@ public class PgVectorVectorStoreConfig {
         if (count == null || count == 0) {
             log.info("向量库为空，正在初始化...");
             List<Document> documents = loveAppDocumentLoader.loadMarkdowns();
+            List<Document> documentsPdf = loveAppPdfDocumentLoader.loadPdfs();
             vectorStore.add(documents);
+            vectorStore.add(documentsPdf);
+
         } else {
             log.info("向量库已存在 {} 条记录，跳过初始化", count);
         }
 
-        List<Document> documents = loveAppDocumentLoader.loadMarkdowns();
-        vectorStore.add(documents);
         return vectorStore;
 
     }
