@@ -34,3 +34,4 @@ build/
 
 src/main/resources/application.yml
 /tmp/file/*.txt
+/src/main/resources/mcp-servers.json
