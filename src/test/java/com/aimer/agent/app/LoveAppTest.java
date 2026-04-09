@@ -10,6 +10,7 @@ import org.springframework.ai.vectorstore.SearchRequest;
 import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -111,5 +112,21 @@ public class LoveAppTest {
         String chatId = UUID.randomUUID().toString();
         String answer = loveApp.doChatWithTools(message, chatId);
         Assertions.assertNotNull(answer);
+    }
+
+    @Test
+    void doChatWithMcp() {
+        String chatId = UUID.randomUUID().toString();
+
+        String message = "我的另一半居住在上海静安区，请帮我找到 5 公里内合适的约会地点 回复3个地点即可";
+        String answer =  loveApp.doChatWithMcp(message, chatId);
+    }
+
+    @Test
+    void testNpx() throws IOException, InterruptedException {
+        Process p = new ProcessBuilder("npx", "-v").start();
+        String version = new String(p.getInputStream().readAllBytes()).trim();
+        System.out.println("✅ npx version: " + version);
+        assert version.equals("11.3.0"); // 你之前查到的版本
     }
 }

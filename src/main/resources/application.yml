@@ -9,8 +9,8 @@ spring:
   mail:
     host: smtp.qq.com
     port: 587
-    username:           # 你的 QQ 邮箱
-    password:    # QQ 邮箱的「授权码」，不是登录密码！
+    username: 2103095120@qq.com         # 你的 QQ 邮箱
+    password: ozzfgnvczketcaeh  # QQ 邮箱的「授权码」，不是登录密码！
     properties:
       mail:
         smtp:
