@@ -121,7 +121,7 @@ public class LoveApp {
     }
 
     public String doChatWithRagCustom(String message, String chatId){
-        // ✅ 动态判断状态
+        // 动态判断状态
         String userStatus = extractRelationshipStatus(message);
 
         ChatResponse chatResponse = chatClient
