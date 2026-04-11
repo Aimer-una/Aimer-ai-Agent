@@ -24,6 +24,7 @@ public class ToolRegistration {
         WebScrapingTool webScrapingTool = new WebScrapingTool();
         ResourceDownloadTool resourceDownloadTool = new ResourceDownloadTool();
         TerminalOperationTool terminalOperationTool = new TerminalOperationTool();
+        TerminateTool terminateTool = new TerminateTool();
         DebugTool debugTool = new DebugTool();
         return ToolCallbacks.from(
             fileOperationTool,
@@ -33,7 +34,8 @@ public class ToolRegistration {
             terminalOperationTool,
             pdfGenerationTool,
                 debugTool,
-                emailTool
+                emailTool,
+                terminateTool
         );
     }
 }
