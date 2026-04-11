@@ -96,7 +96,7 @@ public class LoveAppTest {
 
         //testMessage("周末想带女朋友去上海约会，推荐几个适合情侣的小众打卡地？");
 
-         testMessage("请帮我生成一个很简短不超过50字恋爱报告的pdf生成后请发到2103095120@qq.com这个邮箱里");
+         testMessage("我的另一半居住在上海静安区，请帮我找2个 5 公里内合适的约会地点，并帮我生成一个很简短不超过50字恋爱报告的pdf生成后请发到2103095120@qq.com这个邮箱里");
 
         // testMessage("执行 Python3 脚本来生成数据分析报告");
 

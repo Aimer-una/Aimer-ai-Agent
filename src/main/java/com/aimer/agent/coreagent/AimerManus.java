@@ -4,7 +4,9 @@ import com.aimer.agent.advisor.MyLoggerAdvisor;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.tool.ToolCallback;
+import org.springframework.stereotype.Component;
 
+@Component
 public class AimerManus extends ToolCallAgent{
     public AimerManus(ToolCallback[] allTools, ChatModel dashscopeChatModel){
         super(allTools);
