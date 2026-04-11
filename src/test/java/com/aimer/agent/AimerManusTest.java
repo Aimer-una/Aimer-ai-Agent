@@ -6,6 +6,10 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
+
+/**
+ * 建议不要用这个可能导致无限循环会把token额度用完
+ */
 @SpringBootTest
 public class AimerManusTest {
 
