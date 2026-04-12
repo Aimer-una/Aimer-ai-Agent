@@ -33,15 +33,15 @@ import { chatWithLoveApp } from '../api'
 
 // 设置页面标题和元数据
 useHead({
-  title: 'AI恋爱大师 - 鱼皮AI超级智能体应用平台',
+  title: 'AI恋爱大师 - AimerUnaAI超级智能体应用平台',
   meta: [
     {
       name: 'description',
-      content: 'AI恋爱大师是鱼皮AI超级智能体应用平台的专业情感顾问，帮你解答各种恋爱问题，提供情感建议'
+      content: 'AI恋爱大师是AimerUnaAI超级智能体应用平台的专业情感顾问，帮你解答各种恋爱问题，提供情感建议'
     },
     {
       name: 'keywords',
-      content: 'AI恋爱大师,情感顾问,恋爱咨询,AI聊天,情感问题,鱼皮,AI智能体'
+      content: 'AI恋爱大师,情感顾问,恋爱咨询,AI聊天,情感问题,AimerUna,AI智能体'
     }
   ]
 })

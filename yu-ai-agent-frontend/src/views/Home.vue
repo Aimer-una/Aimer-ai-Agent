@@ -2,7 +2,7 @@
   <div class="home-container">
     <div class="header">
       <div class="glitch-wrapper">
-        <h1 class="glitch-title">鱼皮AI超级智能体</h1>
+        <h1 class="glitch-title">AimerUnaAI超级智能体</h1>
       </div>
       <p class="subtitle">/ 探索AI的无限可能 /</p>
       <div class="cyber-line"></div>
@@ -53,15 +53,15 @@ import AppFooter from '../components/AppFooter.vue'
 
 // 设置页面标题和元数据
 useHead({
-  title: '鱼皮AI超级智能体应用平台 - 首页',
+  title: 'AimerUnaAI超级智能体应用平台 - 首页',
   meta: [
     {
       name: 'description',
-      content: '鱼皮AI超级智能体应用平台提供AI恋爱大师和AI超级智能体服务，满足您的各种AI对话需求'
+      content: 'AimerUnaAI超级智能体应用平台提供AI恋爱大师和AI超级智能体服务，满足您的各种AI对话需求'
     },
     {
       name: 'keywords',
-      content: 'AI智能体,AI应用,AI恋爱大师,AI助手,智能对话,鱼皮,AI超级智能体,首页'
+      content: 'AI智能体,AI应用,AI恋爱大师,AI助手,智能对话,AimerUna,AI超级智能体,首页'
     }
   ]
 })
@@ -130,7 +130,7 @@ const navigateTo = (path) => {
 
 .glitch-title::before,
 .glitch-title::after {
-  content: '鱼皮AI超级智能体';
+  content: 'AimerUnaAI超级智能体';
   position: absolute;
   top: 0;
   left: 0;

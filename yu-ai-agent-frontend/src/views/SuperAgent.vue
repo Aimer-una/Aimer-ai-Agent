@@ -33,15 +33,15 @@ import { chatWithManus } from '../api'
 
 // 设置页面标题和元数据
 useHead({
-  title: 'AI超级智能体 - 鱼皮AI超级智能体应用平台',
+  title: 'AI超级智能体 - AimerUnaAI超级智能体应用平台',
   meta: [
     {
       name: 'description',
-      content: 'AI超级智能体是鱼皮AI超级智能体应用平台的全能助手，能解答各类专业问题，提供精准建议和解决方案'
+      content: 'AI超级智能体是AimerUnaAI超级智能体应用平台的全能助手，能解答各类专业问题，提供精准建议和解决方案'
     },
     {
       name: 'keywords',
-      content: 'AI超级智能体,智能助手,专业问答,AI问答,专业建议,鱼皮,AI智能体'
+      content: 'AI超级智能体,智能助手,专业问答,AI问答,专业建议,AimerUna,AI智能体'
     }
   ]
 })
