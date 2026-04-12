@@ -1,6 +1,7 @@
 package com.aimer.agent.controller;
 
 import com.aimer.agent.app.LoveApp;
+import com.aimer.agent.coreagent.AimerManus;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.ai.chat.model.ChatModel;
@@ -80,5 +81,12 @@ public class AiController {
                         emitter::complete
                 );
         return emitter;
+    }
+
+
+    @GetMapping("/manus/chat")
+    public SseEmitter doChatWithManus(String message) {
+        AimerManus aimerManus = new AimerManus(allTools, dashscopeChatModel);
+        return aimerManus.runStream(message);
     }
 }
