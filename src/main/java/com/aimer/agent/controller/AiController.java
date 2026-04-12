@@ -2,6 +2,7 @@ package com.aimer.agent.controller;
 
 import com.aimer.agent.app.LoveApp;
 import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.tool.ToolCallback;
 import org.springframework.http.MediaType;
@@ -9,7 +10,12 @@ import org.springframework.http.codec.ServerSentEvent;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import reactor.core.publisher.Flux;
+
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/ai")
@@ -50,4 +56,29 @@ public class AiController {
                         .build());
     }*/
 
+    @GetMapping("/love_app/chat/sse/emitter")
+    public SseEmitter doChatWithLoveAppSseEmitter(String message, String chatId){
+        SseEmitter emitter = new SseEmitter(180000L);
+
+        // 👇 关键：设置响应头 charset=utf-8
+        HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
+                .getResponse();
+        if (response != null) {
+            response.setContentType("text/event-stream; charset=utf-8");
+        }
+
+        loveApp.doChatByStream(message,chatId)
+                .subscribe(
+                        chunk -> {
+                            try {
+                                emitter.send(chunk);
+                            }catch (IOException e){
+                                emitter.completeWithError(e);
+                            }
+                        },
+                        emitter::completeWithError,
+                        emitter::complete
+                );
+        return emitter;
+    }
 }
