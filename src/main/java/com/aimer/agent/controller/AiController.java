@@ -44,6 +44,12 @@ public class AiController {
      MediaType.TEXT_EVENT_STREAM_VALUE = "text/event-stream"*/
     @GetMapping(value = "/love_app/chat/sse",produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<String> doChatWithLoveAppSSE(String message,String chatId){
+        // 👇 关键：设置响应头 charset=utf-8
+        HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
+                .getResponse();
+        if (response != null) {
+            response.setContentType("text/event-stream; charset=utf-8");
+        }
 /*        返回一个“消息流”，后端可以分多次发送数据
         Flux<T> 是 Project Reactor 的核心类型 → 表示 0~N 个异步数据项的流*/
         return loveApp.doChatByStream(message, chatId);
